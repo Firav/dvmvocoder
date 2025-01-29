@@ -64,7 +64,7 @@ jobs:
       # Upload the dll or so
       uses: actions/upload-artifact@v4
       with:
-        name: dvmvocoder
+        name: dvmvocoder-${{ matrix.os }}
         path: |
-          ${{ steps.strings.outputs.build-output-dir }}/*.dll
+          ${{ steps.strings.outputs.build-output-dir }}/Release/*.dll
           ${{ steps.strings.outputs.build-output-dir }}/*.so
