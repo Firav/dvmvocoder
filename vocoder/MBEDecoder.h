@@ -136,6 +136,12 @@ namespace vocoder
          */
         __PROPERTY(bool, autoGain, AutoGain);
     };
+
+    // Extern methods for C#/C++ interop
+    extern "C" MBEDecoder* MBEDecoder_Create(MBE_DECODER_MODE mode) { return new MBEDecoder(mode); }
+    extern "C" void MBEDecoder_Encode(MBEDecoder* pDecoder, uint8_t* codeword, int16_t* samples) { pDecoder->decode(codeword, samples); }
+    extern "C" void MBEDecoder_Delete(MBEDecoder* pDecoder) { delete pDecoder; }
+
 } // namespace vocoder
 
 #endif // __MBE_DECODER_H__

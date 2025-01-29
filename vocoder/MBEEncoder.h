@@ -79,6 +79,12 @@ namespace vocoder
          */
         __PROPERTY(float, gainAdjust, GainAdjust);
     };
+
+    // Extern methods for C#/C++ interop
+    extern "C" MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode) { return new MBEEncoder(mode); }
+    extern "C" void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword) { pEncoder->encode(samples, codeword); }
+    extern "C" void MBEEncoder_Delete(MBEEncoder* pEncoder) { delete pEncoder; }
+
 } // namespace vocoder
 
 #endif // __MBE_ENCODER_H__
