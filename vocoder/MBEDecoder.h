@@ -139,7 +139,7 @@ namespace vocoder
 
     // Extern methods for C#/C++ interop
     extern "C" MBEDecoder* MBEDecoder_Create(MBE_DECODER_MODE mode) { return new MBEDecoder(mode); }
-    extern "C" void MBEDecoder_Encode(MBEDecoder* pDecoder, uint8_t* codeword, int16_t* samples) { pDecoder->decode(codeword, samples); }
+    extern "C" int32_t MBEDecoder_Decode(MBEDecoder* pDecoder, uint8_t* codeword, int16_t* samples) { return pDecoder->decode(codeword, samples); }
     extern "C" void MBEDecoder_Delete(MBEDecoder* pDecoder) { delete pDecoder; }
 
 } // namespace vocoder
