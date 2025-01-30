@@ -16,6 +16,11 @@ project(dvmvocoder)
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
+# Set up export symbols (Windows only)
+if(WIN32)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
 #
 # Build Vocoder as a Shared Library (dll or so)
 #

@@ -81,9 +81,17 @@ namespace vocoder
     };
 
     // Extern methods for C#/C++ interop
-    extern "C" MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode) { return new MBEEncoder(mode); }
-    extern "C" void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword) { pEncoder->encode(samples, codeword); }
-    extern "C" void MBEEncoder_Delete(MBEEncoder* pEncoder) { delete pEncoder; }
+    extern "C" {
+#ifdef _WIN32
+        __declspec(dllexport) MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode);
+        __declspec(dllexport) void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword);
+        __declspec(dllexport) void MBEEncoder_Delete(MBEEncoder* pEncoder);
+#else
+        MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode);
+        void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword);
+        void MBEEncoder_Delete(MBEEncoder* pEncoder);
+#endif
+    }
 
 } // namespace vocoder
 
