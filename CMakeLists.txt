@@ -13,9 +13,12 @@ cmake_minimum_required(VERSION 3.16.0)
 
 project(dvmvocoder)
 
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
+set(CMAKE_SHARED_LIBRARY_PREFIX "")
+
 #
 # Build Vocoder as a Shared Library (dll or so)
 #
 include(vocoder/CMakeLists.txt)
-add_library(vocoder SHARED ${vocoder_SRC} ${vocoder_INCLUDE})
-target_include_directories(vocoder PRIVATE vocoder)
+add_library(libvocoder SHARED ${vocoder_SRC} ${vocoder_INCLUDE})
+target_include_directories(libvocoder PRIVATE vocoder)
