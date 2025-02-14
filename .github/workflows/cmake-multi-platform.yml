@@ -72,3 +72,17 @@ jobs:
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+    - name: Upload Windows DLL
+      if: matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: libvocoder-win-x86
+        path: ${{ steps.strings.outputs.build-output-dir }}/${{ matrix.build_type }}/libvocoder.dll
+
+    - name: Upload Linux SO
+      if: matrix.os == 'ubuntu-latest'
+      uses: actions/upload-artifact@v4
+      with:
+        name: libvocoder-linux
+        path: ${{ steps.strings.outputs.build-output-dir }}/libvocoder.so
