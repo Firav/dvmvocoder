@@ -719,9 +719,9 @@ namespace vocoder {
     }
 
     // Extern methods for C#/C++ interop
-    MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode) 
-    { 
-        return new MBEEncoder(mode); 
+    MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode)
+    {
+        return new MBEEncoder(mode);
     }
 
     void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword)
@@ -731,10 +731,28 @@ namespace vocoder {
             pEncoder->encode(samples, codeword);
         }
     }
-    
-    void MBEEncoder_Delete(MBEEncoder* pEncoder) 
-    { 
-        delete pEncoder; 
+
+    void MBEEncoder_EncodeBits(MBEEncoder* pEncoder, uint8_t* bits, uint8_t* codeword)
+    {
+        if (pEncoder != NULL)
+        {
+            pEncoder->encodeBits(bits, codeword);
+        }
+    }
+
+    void MBEEncoder_Delete(MBEEncoder* pEncoder)
+    {
+        delete pEncoder;
         pEncoder = NULL;
+    }
+
+    void Golay24128_Encode(uint8_t* data, const uint8_t* raw, uint32_t msglen)
+    {
+        Golay24128::encode24128(data, raw, msglen);
+    }
+
+    void Golay23127_Encode()
+    {
+        
     }
 } // namespace vocoder

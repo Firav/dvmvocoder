@@ -142,10 +142,12 @@ namespace vocoder
 #ifdef _WIN32
         extern __declspec(dllexport) MBEDecoder* MBEDecoder_Create(MBE_DECODER_MODE mode);
         extern __declspec(dllexport) int32_t MBEDecoder_Decode(MBEDecoder* pDecoder, uint8_t* codeword, int16_t* samples);
+        extern __declspec(dllexport) int32_t MBEDecoder_DecodeBits(MBEDecoder* pDecoder, uint8_t* codeword, char* mbeBits);
         extern __declspec(dllexport) void MBEDecoder_Delete(MBEDecoder* pDecoder);
 #else
         extern MBEDecoder* MBEDecoder_Create(MBE_DECODER_MODE mode);
         extern int32_t MBEDecoder_Decode(MBEDecoder* pDecoder, uint8_t* codeword, int16_t* samples);
+        extern int32_t MBEDecoder_DecodeBits(MBEDecoder* pDecoder, uint8_t* codeword, char* mbeBits);
         extern void MBEDecoder_Delete(MBEDecoder* pDecoder);
 #endif
     }

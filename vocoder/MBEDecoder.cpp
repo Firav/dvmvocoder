@@ -331,6 +331,15 @@ namespace vocoder {
         return -1;
     }
 
+    int32_t MBEDecoder_DecodeBits(MBEDecoder* pDecoder, uint8_t* codeword, char* mbeBits)
+    {
+        if (pDecoder != NULL)
+        {
+            return pDecoder->decodeBits(codeword, mbeBits);
+        }
+        return -1;
+    }
+
     void MBEDecoder_Delete(MBEDecoder* pDecoder)
     {
         if (pDecoder != NULL)
