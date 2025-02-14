@@ -4,11 +4,11 @@ on:
   # Allow manual call
   workflow_dispatch:
   # Allow use in other workflows (such as release)
-  worlflow_call:
+  workflow_call:
     inputs:
       release:
         required: false
-        type: bool
+        type: boolean
         default: false
       release_tag:
         required: false
