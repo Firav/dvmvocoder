@@ -103,7 +103,7 @@ jobs:
 
     # Upload non-release .SO to artifacts
     - name: Upload Linux SO
-      if: if: ${{ (matrix.os == 'ubuntu-latest') && !(inputs.release) }}
+      if: ${{ (matrix.os == 'ubuntu-latest') && !(inputs.release) }}
       uses: actions/upload-artifact@v4
       with:
         name: libvocoder-linux
