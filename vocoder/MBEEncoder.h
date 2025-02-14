@@ -91,7 +91,7 @@ namespace vocoder
 #else
         MBEEncoder* MBEEncoder_Create(MBE_ENCODER_MODE mode);
         void MBEEncoder_Encode(MBEEncoder* pEncoder, int16_t* samples, uint8_t* codeword);
-        void MBEEncoder_EncodeBits(MBEEncoder* pEncoder, uint8_t* bits, uint8_t* codeword)
+        void MBEEncoder_EncodeBits(MBEEncoder* pEncoder, uint8_t* bits, uint8_t* codeword);
         void MBEEncoder_Delete(MBEEncoder* pEncoder);
 #endif
     }

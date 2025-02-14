@@ -16,9 +16,12 @@ project(dvmvocoder)
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
 
-# Set up export symbols (Windows only)
-if(WIN32)
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+option(COMPILE_WIN32 "Compile for Win32" off)
+
+# Set up wion
+if(COMPILE_WIN32)
+    set(CMAKE_SYSTEM_NAME "Windows")
+    set(CMAKE_SYSTEM_PROCESSOR "x86_64")
 endif()
 
 #
