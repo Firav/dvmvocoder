@@ -1,0 +1,26 @@
+name: Create new dvmvocoder release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        draft: false
+        prerelease: false
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+
+    - name: Build for Windows & Linux
+      uses: ./.github/workflows/linux-windows-cmake-build.yml
+      with:
+        release: true
+        release_tag: ${{ github.ref }}

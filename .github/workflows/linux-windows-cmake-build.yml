@@ -1,12 +1,23 @@
-# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
-name: CMake on multiple platforms
+name: Linux & Windows CMake Build
 
 on:
+  # Allow manual call
   workflow_dispatch:
+  # Allow use in other workflows (such as release)
+  worlflow_call:
+    inputs:
+      release:
+        required: false
+        type: bool
+        default: false
+      release_tag:
+        required: false
+        type: string
+  # Run on push to main
   push:
     branches:
     - main
+  # Run on PR to main
   pull_request:
     branches:
     - main
@@ -41,6 +52,9 @@ jobs:
             c_compiler: gcc
           - os: ubuntu-latest
             c_compiler: cl
+
+    outputs:
+      build_dir: ${{ steps.strings.outputs.build-output-dir }}
 
     steps:
     - uses: actions/checkout@v4
@@ -79,16 +93,39 @@ jobs:
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
 
+    # Upload non-release DLL to artifacts
     - name: Upload Windows DLL
-      if: matrix.os == 'windows-latest'
+      if: ${{ (matrix.os == 'windows-latest') && !(inputs.release) }}
       uses: actions/upload-artifact@v4
       with:
         name: libvocoder-win-x86
         path: ${{ steps.strings.outputs.build-output-dir }}/${{ matrix.build_type }}/libvocoder.dll
 
+    # Upload non-release .SO to artifacts
     - name: Upload Linux SO
-      if: matrix.os == 'ubuntu-latest'
+      if: if: ${{ (matrix.os == 'ubuntu-latest') && !(inputs.release) }}
       uses: actions/upload-artifact@v4
       with:
         name: libvocoder-linux
         path: ${{ steps.strings.outputs.build-output-dir }}/libvocoder.so
+
+    # (Release-Only) Upload Release Windows .zip to release
+    - name: Upload Windows DLL Release
+      if: ${{ (matrix.os == 'windows-latest') && (inputs.release) }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        cd ${{ steps.strings.outputs.build-output-dir }}/${{ matrix.build_type }}
+        Compress-Archive -Path ./libvocoder.dll -Destination ./libvocoder-${{ inputs.release_tag }}-win-x86.zip
+        gh release upload ${{ inputs.release_tag }} ./libvocoder-${{ inputs.release_tag }}-win-x86.zip
+
+    # (Release-Only) Upload release linux .tar.gz to release
+    - name: Upload Linux Release DLL
+      if: ${{ (matrix.os == 'ubuntu-latest') && (inputs.release) }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        cd ${{ steps.strings.outputs.build-output-dir }}
+        tar -czvf ./libvocoder-${{ inputs.release_tag }}-linux.tar.gz ./libvocoder.so
+        gh release upload ${{ inputs.release_tag }} ./libvocoder-${{ inputs.release_tag }}-linux.tar.gz
+      
