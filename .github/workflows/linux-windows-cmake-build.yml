@@ -113,7 +113,7 @@ jobs:
     - name: Upload Windows DLL Release
       if: ${{ (matrix.os == 'windows-latest') && (inputs.release) }}
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cd ${{ steps.strings.outputs.build-output-dir }}/${{ matrix.build_type }}
         Compress-Archive -Path ./libvocoder.dll -Destination ./libvocoder-${{ inputs.release_tag }}-win-x86.zip
@@ -123,7 +123,7 @@ jobs:
     - name: Upload Linux Release DLL
       if: ${{ (matrix.os == 'ubuntu-latest') && (inputs.release) }}
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cd ${{ steps.strings.outputs.build-output-dir }}
         tar -czvf ./libvocoder-${{ inputs.release_tag }}-linux.tar.gz ./libvocoder.so
