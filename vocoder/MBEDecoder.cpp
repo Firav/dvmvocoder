@@ -225,6 +225,7 @@ namespace vocoder {
         int32_t errs = decodeF(codeword, samplesF);
 
         float* sampleFPtr = samplesF;
+        bool m_autoGain = false;
         if (m_autoGain) {
             // detect max level
             float max = 0.0f;
